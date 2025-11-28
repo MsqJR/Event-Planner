@@ -10,7 +10,7 @@ A RESTful API backend for the Event Planner application built with GoLang, MySQL
 - **Configuration:** dotenv
 
 ## Project Structure
-
+git@github.com:MsqJR/Event-Planner.git
 ```
 backend/
 ├── cmd/

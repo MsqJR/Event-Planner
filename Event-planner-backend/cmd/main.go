@@ -49,9 +49,13 @@ func main() {
 	api.HandleFunc("/events/invited", eventHandler.GetInvitedEvents).Methods("POST")
 	api.HandleFunc("/events/invite", eventHandler.InviteUser).Methods("POST")
 	api.HandleFunc("/events/create", eventHandler.CreateEvent).Methods("POST")
+	api.HandleFunc("/events/update", eventHandler.UpdateEvent).Methods("POST")
 	api.HandleFunc("/events/delete", eventHandler.DeleteEvent).Methods("POST")
 	api.HandleFunc("/events/status", eventHandler.SetStatus).Methods("POST")
 	api.HandleFunc("/events/attendees", eventHandler.GetAttendees).Methods("POST")
+	api.HandleFunc("/events/details", eventHandler.GetEventDetails).Methods("POST")
+	api.HandleFunc("/events/invite-email", eventHandler.InviteUserByEmail).Methods("POST")
+	api.HandleFunc("/events/search", eventHandler.SearchEvents).Methods("POST")
 
 	router.Methods(http.MethodOptions).HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
