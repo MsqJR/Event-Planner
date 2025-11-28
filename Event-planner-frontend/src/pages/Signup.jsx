@@ -54,6 +54,9 @@ function Signup({ onLogin }) {
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-header">
+          <div className="auth-icon">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
           <h1>Event Planner</h1>
           <p>Create your account to get started.</p>
         </div>
@@ -63,7 +66,9 @@ function Signup({ onLogin }) {
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="first_name">First Name</label>
+              <label htmlFor="first_name">
+                <ion-icon name="person-outline"></ion-icon> First Name
+              </label>
               <input
                 type="text"
                 id="first_name"
@@ -76,7 +81,9 @@ function Signup({ onLogin }) {
             </div>
 
             <div className="form-group">
-              <label htmlFor="last_name">Last Name</label>
+              <label htmlFor="last_name">
+                <ion-icon name="person-outline"></ion-icon> Last Name
+              </label>
               <input
                 type="text"
                 id="last_name"
@@ -90,7 +97,9 @@ function Signup({ onLogin }) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">
+              <ion-icon name="mail-outline"></ion-icon> Email
+            </label>
             <input
               type="email"
               id="email"
@@ -103,7 +112,9 @@ function Signup({ onLogin }) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">
+              <ion-icon name="lock-closed-outline"></ion-icon> Password
+            </label>
             <input
               type="password"
               id="password"
@@ -117,7 +128,9 @@ function Signup({ onLogin }) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirmPassword">
+              <ion-icon name="shield-checkmark-outline"></ion-icon> Confirm Password
+            </label>
             <input
               type="password"
               id="confirmPassword"
@@ -130,7 +143,15 @@ function Signup({ onLogin }) {
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? 'Creating account...' : 'Sign Up'}
+            {loading ? (
+              <>
+                <ion-icon name="hourglass-outline"></ion-icon> Creating account...
+              </>
+            ) : (
+              <>
+                <ion-icon name="person-add-outline"></ion-icon> Sign Up
+              </>
+            )}
           </button>
         </form>
 

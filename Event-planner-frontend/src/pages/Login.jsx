@@ -37,6 +37,9 @@ function Login({ onLogin }) {
     <div className="auth-container">
       <div className="auth-box">
         <div className="auth-header">
+          <div className="auth-icon">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
           <h1>Event Planner</h1>
           <p>Welcome back! Please login to continue.</p>
         </div>
@@ -45,7 +48,9 @@ function Login({ onLogin }) {
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">
+              <ion-icon name="mail-outline"></ion-icon> Email
+            </label>
             <input
               type="email"
               id="email"
@@ -58,7 +63,9 @@ function Login({ onLogin }) {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">
+              <ion-icon name="lock-closed-outline"></ion-icon> Password
+            </label>
             <input
               type="password"
               id="password"
@@ -71,7 +78,15 @@ function Login({ onLogin }) {
           </div>
 
           <button type="submit" className="btn btn-primary" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? (
+              <>
+                <ion-icon name="hourglass-outline"></ion-icon> Logging in...
+              </>
+            ) : (
+              <>
+                <ion-icon name="log-in-outline"></ion-icon> Login
+              </>
+            )}
           </button>
         </form>
 
