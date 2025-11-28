@@ -7,7 +7,7 @@
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   z-index: 1000;
   animation: fadeIn 0.3s ease;
 }
@@ -20,16 +20,17 @@
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.3s ease;
+  animation: slideInRight 0.3s ease;
+  margin-right: 2rem;
 }
 
-@keyframes slideUp {
+@keyframes slideInRight {
   from {
-    transform: translateY(50px);
+    transform: translateX(100%);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translateX(0);
     opacity: 1;
   }
 }

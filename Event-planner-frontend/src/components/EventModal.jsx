@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './EventModal.css'
 
-function EventModal({ isOpen, onClose, onSubmit, loading }) {
+function EventModal({ isOpen, onClose, onSubmit, loading, event = null }) {
   const [formData, setFormData] = useState({
     name: '',
     date: '',
@@ -9,6 +9,26 @@ function EventModal({ isOpen, onClose, onSubmit, loading }) {
     location: '',
     description: '',
   })
+
+  useEffect(() => {
+    if (event) {
+      setFormData({
+        name: event.name || '',
+        date: event.date || '',
+        time: event.time || '',
+        location: event.location || '',
+        description: event.description || '',
+      })
+    } else {
+      setFormData({
+        name: '',
+        date: '',
+        time: '',
+        location: '',
+        description: '',
+      })
+    }
+  }, [event, isOpen])
 
   const handleChange = (e) => {
     setFormData({
@@ -40,8 +60,8 @@ function EventModal({ isOpen, onClose, onSubmit, loading }) {
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>
-            <ion-icon name="add-circle-outline"></ion-icon>
-            Create New Event
+            <ion-icon name={event ? "create-outline" : "add-circle-outline"}></ion-icon>
+            {event ? 'Edit Event' : 'Create New Event'}
           </h2>
           <button className="close-button" onClick={handleClose}>
             <ion-icon name="close-outline"></ion-icon>
@@ -130,11 +150,11 @@ function EventModal({ isOpen, onClose, onSubmit, loading }) {
             <button type="submit" className="btn btn-primary" disabled={loading}>
               {loading ? (
                 <>
-                  <ion-icon name="hourglass-outline"></ion-icon> Creating...
+                  <ion-icon name="hourglass-outline"></ion-icon> {event ? 'Updating...' : 'Creating...'}
                 </>
               ) : (
                 <>
-                  <ion-icon name="add-outline"></ion-icon> Create Event
+                  <ion-icon name={event ? "checkmark-outline" : "add-outline"}></ion-icon> {event ? 'Update Event' : 'Create Event'}
                 </>
               )}
             </button>
