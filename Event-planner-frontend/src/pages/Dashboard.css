@@ -1,11 +1,11 @@
 .dashboard-container {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: #000000;
 }
 
 .dashboard-nav {
   background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
   padding: 1rem 0;
   position: sticky;
   top: 0;
@@ -22,10 +22,7 @@
 }
 
 .nav-content h2 {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #000000;
   margin: 0;
 }
 
@@ -36,7 +33,7 @@
 }
 
 .user-name {
-  color: #666;
+  color: #000000;
   font-weight: 500;
 }
 
