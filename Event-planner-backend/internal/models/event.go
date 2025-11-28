@@ -29,3 +29,11 @@ type UpdateEventRequest struct {
 	Location    string `json:"location"`
 	Description string `json:"description"`
 }
+
+type SearchRequest struct {
+	Keyword   string `json:"keyword"`
+	StartDate string `json:"start_date"`
+	EndDate   string `json:"end_date"`
+	UserID    int    `json:"user_id"`
+	Role      string `json:"role"`
+}
