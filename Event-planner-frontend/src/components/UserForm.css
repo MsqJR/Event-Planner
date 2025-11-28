@@ -15,7 +15,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #333;
+  color: #000000;
 }
 
 .form-group input {
@@ -25,11 +25,13 @@
   border-radius: 4px;
   font-size: 1rem;
   transition: border-color 0.2s;
+  background: white;
+  color: #000000;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #000000;
 }
 
 .form-actions {
@@ -49,21 +51,21 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000000;
   color: white;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
 }
 
 .btn-secondary {
-  background: #6c757d;
+  background: #000000;
   color: white;
 }
 
 .btn-secondary:hover {
-  background: #5a6268;
+  background: #333333;
 }
 
