@@ -10,6 +10,7 @@ type User struct {
 	Password  string    `json:"-"` // Don't return password in JSON
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+	OrganizedEvents []Event `json:"-"` //Don't return List of Events in Json
 }
 
 type LoginRequest struct {
