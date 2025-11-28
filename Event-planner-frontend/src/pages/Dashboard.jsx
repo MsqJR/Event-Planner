@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import OrganizedEvents from './OrganizedEvents'
 import InvitedEvents from './InvitedEvents'
+import SearchEvents from './SearchEvents'
 import './Dashboard.css'
 
 function Dashboard({ user, onLogout }) {
@@ -13,6 +14,7 @@ function Dashboard({ user, onLogout }) {
           <Route path="/" element={<Navigate to="/dashboard/organized" replace />} />
           <Route path="/organized" element={<OrganizedEvents user={user} />} />
           <Route path="/invited" element={<InvitedEvents user={user} />} />
+          <Route path="/search" element={<SearchEvents />} />
         </Routes>
       </div>
     </div>

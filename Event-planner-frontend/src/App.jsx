@@ -36,14 +36,14 @@ function App() {
     <Routes>
       <Route 
         path="/login" 
-        element={user ? <Navigate to="/dashboard" /> : <Login onLogin={handleLogin} />} 
+        element={user ? <Navigate to="/dashboard/organized" /> : <Login onLogin={handleLogin} />} 
       />
       <Route 
         path="/signup" 
-        element={user ? <Navigate to="/dashboard" /> : <Signup onLogin={handleLogin} />} 
+        element={user ? <Navigate to="/dashboard/organized" /> : <Signup onLogin={handleLogin} />} 
       />
       <Route 
-        path="/dashboard" 
+        path="/dashboard/*" 
         element={user ? <Dashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} 
       />
       <Route path="/" element={<Navigate to="/login" />} />

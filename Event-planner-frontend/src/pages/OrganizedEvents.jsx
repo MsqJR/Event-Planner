@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { eventsAPI } from '../services/api'
 import EventModal from '../components/EventModal'
+import InviteModal from '../components/InviteModal'
 import '../pages/Dashboard.css'
 
 function OrganizedEvents({ user }) {
@@ -8,8 +9,10 @@ function OrganizedEvents({ user }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
   const [createLoading, setCreateLoading] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
+  const [editingEvent, setEditingEvent] = useState(null)
 
   useEffect(() => {
     loadEvents()
@@ -34,14 +37,29 @@ function OrganizedEvents({ user }) {
   const handleCreateEvent = async (eventData) => {
     setCreateLoading(true)
     try {
-      await eventsAPI.createEvent(user.id, eventData)
+      if (editingEvent) {
+        await eventsAPI.updateEvent(editingEvent.id, user.id, eventData)
+      } else {
+        await eventsAPI.createEvent(user.id, eventData)
+      }
       setIsModalOpen(false)
+      setEditingEvent(null)
       loadEvents()
     } catch (err) {
-      setError(err.response?.data || 'Failed to create event')
+      setError(err.response?.data || `Failed to ${editingEvent ? 'update' : 'create'} event`)
     } finally {
       setCreateLoading(false)
     }
+  }
+
+  const handleEditEvent = (event) => {
+    setEditingEvent(event)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setEditingEvent(null)
   }
 
   const handleDeleteEvent = async (eventId) => {
@@ -54,6 +72,20 @@ function OrganizedEvents({ user }) {
     } catch (err) {
       setError(err.response?.data || 'Failed to delete event')
     }
+  }
+
+  const handleInviteUser = async (email, role) => {
+    try {
+      await eventsAPI.inviteUserByEmail(email, selectedEvent, user.id, role)
+      alert('User invited successfully!')
+    } catch (err) {
+      throw err
+    }
+  }
+
+  const openInviteModal = (eventId) => {
+    setSelectedEvent(eventId)
+    setIsInviteModalOpen(true)
   }
 
   return (
@@ -89,18 +121,34 @@ function OrganizedEvents({ user }) {
           ) : (
             <div className="events-grid-list">
               {events.map((event) => (
-                <div key={event.id} className="event-card">
+                <div key={event.id} className="event-card-organizer">
                   <ion-icon name="calendar"></ion-icon>
                   <div className="event-info">
                     <h4>{event.name}</h4>
                   </div>
-                  <button 
-                    className="delete-button"
-                    onClick={() => handleDeleteEvent(event.id)}
-                    title="Delete event"
-                  >
-                    <ion-icon name="trash-outline"></ion-icon>
-                  </button>
+                  <div className="event-actions">
+                    <button 
+                      className="edit-button"
+                      onClick={() => handleEditEvent(event)}
+                      title="Edit event"
+                    >
+                      <ion-icon name="create-outline"></ion-icon>
+                    </button>
+                    <button 
+                      className="invite-button"
+                      onClick={() => openInviteModal(event.id)}
+                      title="Invite users"
+                    >
+                      <ion-icon name="person-add-outline"></ion-icon>
+                    </button>
+                    <button 
+                      className="delete-button"
+                      onClick={() => handleDeleteEvent(event.id)}
+                      title="Delete event"
+                    >
+                      <ion-icon name="trash-outline"></ion-icon>
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -110,9 +158,17 @@ function OrganizedEvents({ user }) {
 
       <EventModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         onSubmit={handleCreateEvent}
         loading={createLoading}
+        event={editingEvent}
+      />
+
+      <InviteModal
+        isOpen={isInviteModalOpen}
+        onClose={() => setIsInviteModalOpen(false)}
+        onInvite={handleInviteUser}
+        eventId={selectedEvent}
       />
     </div>
   )

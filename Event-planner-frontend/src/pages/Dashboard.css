@@ -135,9 +135,10 @@
 }
 
 .events-grid-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
 }
 
 .event-card {
@@ -178,6 +179,97 @@
   color: #000000;
   margin: 0;
   font-size: 1.2rem;
+}
+
+/* Event card for organizer with actions */
+.event-card-organizer {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeIn 0.5s ease;
+  width: 100%;
+}
+
+.event-card-organizer ion-icon:first-child {
+  font-size: 2rem;
+  color: #000000;
+  transition: transform 0.3s ease;
+}
+
+.event-card-organizer:hover {
+  border-color: #000000;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+  transform: translateY(-5px);
+}
+
+.event-card-organizer:hover ion-icon:first-child {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.event-card-organizer .event-info {
+  flex: 1;
+}
+
+.event-card-organizer h4 {
+  color: #000000;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.event-card-organizer .event-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-button {
+  background: #000000;
+  color: white !important;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.edit-button:hover {
+  background: #333333;
+  transform: scale(1.05);
+}
+
+.edit-button ion-icon {
+  font-size: 1.2rem;
+  color: white !important;
+}
+
+.invite-button {
+  background: #000000;
+  color: white !important;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.invite-button:hover {
+  background: #333333;
+  transform: scale(1.05);
+}
+
+.invite-button ion-icon {
+  font-size: 1.2rem;
+  color: white !important;
 }
 
 /* Event card with status buttons */
@@ -231,6 +323,12 @@
   margin-right: 0.5rem;
   font-size: 1.1rem;
   vertical-align: middle;
+}
+
+.event-card-content h4 {
+  color: #000000;
+  margin: 0;
+  font-size: 1.2rem;
 }
 
 /* Delete button */
