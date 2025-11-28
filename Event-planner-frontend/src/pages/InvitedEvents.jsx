@@ -72,6 +72,10 @@ function InvitedEvents({ user }) {
                     <ion-icon name="calendar"></ion-icon>
                     <div className="event-info">
                       <h4>{event.name}</h4>
+                      <div className="event-details">
+                        <p>Location: {event.location}</p>
+                        <p>Date: {event.date} at {event.time}</p>
+                      </div>
                     </div>
                   </div>
                   <div className="status-buttons">

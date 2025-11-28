@@ -28,7 +28,7 @@ func (h *EventHandler) GetOrganizedEvents(w http.ResponseWriter, r *http.Request
 		http.Error(w, "User Id is required", http.StatusBadRequest)
 		return
 	}
-	query := ` SELECT e.id, e.name
+	query := ` SELECT e.id, e.name, e.date, e.time, e.location, e.description, e.organizer_id, e.created_at, e.updated_at
 			   FROM events e
 			   JOIN event_participants ep ON ep.event_id = e.id
 				WHERE ep.user_id = ? AND ep.role = ? `
@@ -43,7 +43,7 @@ func (h *EventHandler) GetOrganizedEvents(w http.ResponseWriter, r *http.Request
 	var Events []models.Event
 	for rows.Next() {
 		var e models.Event
-		if err = rows.Scan(&e.ID, &e.Name); err != nil {
+		if err = rows.Scan(&e.ID, &e.Name, &e.Date, &e.Time, &e.Location, &e.Description, &e.OrganizerID, &e.CreatedAt, &e.UpdatedAt); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -71,12 +71,12 @@ func (h *EventHandler) GetInvitedEvents(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, "User Id is required", http.StatusBadRequest)
 		return
 	}
-	query := ` SELECT e.id, e.name
+	query := ` SELECT e.id, e.name, e.date, e.time, e.location, e.description, e.organizer_id, e.created_at, e.updated_at
 			   FROM events e
 			   JOIN event_participants ep ON ep.event_id = e.id
-				WHERE ep.user_id = ? AND ep.role = ? `
+				WHERE ep.user_id = ? AND (ep.role = ? OR ep.role = ?) `
 
-	rows, err := h.DB.Query(query, req.User_ID, models.Role.Invitee)
+	rows, err := h.DB.Query(query, req.User_ID, models.Role.Invitee, models.Role.Collaborator)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -86,7 +86,7 @@ func (h *EventHandler) GetInvitedEvents(w http.ResponseWriter, r *http.Request) 
 	var Events []models.Event
 	for rows.Next() {
 		var e models.Event
-		if err = rows.Scan(&e.ID, &e.Name); err != nil {
+		if err = rows.Scan(&e.ID, &e.Name, &e.Date, &e.Time, &e.Location, &e.Description, &e.OrganizerID, &e.CreatedAt, &e.UpdatedAt); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}

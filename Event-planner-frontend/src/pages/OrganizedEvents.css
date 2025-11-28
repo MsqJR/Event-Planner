@@ -1,0 +1,40 @@
+.organized-events-page {
+  animation: fadeIn 0.5s ease;
+}
+
+.organized-events-page .page-header .btn {
+  background: white;
+  color: black;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  width: auto;
+  max-width: fit-content;
+}
+
+.organized-events-page .page-header .btn:hover {
+  background: #e6e6e6;
+  transform: translateY(-2px);
+}
+
+.organized-events-page .page-header .btn ion-icon {
+  font-size: 1.2rem;
+  color: black;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

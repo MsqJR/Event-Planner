@@ -1,0 +1,229 @@
+.attendees-modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.attendees-modal-content .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.attendees-modal-content .modal-header h2 {
+  margin: 0;
+  color: #000000;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.attendees-modal-content .modal-header h2 ion-icon {
+  font-size: 1.8rem;
+  color: #ffd700;
+}
+
+.event-title {
+  padding: 1rem 2rem;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #000000;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.event-title ion-icon {
+  color: #ffd700;
+  font-size: 1.3rem;
+}
+
+.attendees-list {
+  padding: 1.5rem 2rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.attendee-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.attendee-item:hover {
+  background: #e9ecef;
+  transform: translateX(5px);
+}
+
+.attendee-avatar {
+  flex-shrink: 0;
+}
+
+.attendee-avatar ion-icon {
+  font-size: 3rem;
+  color: #000000;
+}
+
+.attendee-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.attendee-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 0.25rem;
+}
+
+.attendee-email {
+  font-size: 0.85rem;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attendee-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.role-badge,
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+
+.status-badge ion-icon {
+  font-size: 1rem;
+}
+
+.no-attendees {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #999;
+}
+
+.no-attendees ion-icon {
+  font-size: 4rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.no-attendees p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.attendees-summary {
+  display: flex;
+  justify-content: space-around;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #e0e0e0;
+  background: #f8f9fa;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #000000;
+}
+
+.summary-item ion-icon {
+  font-size: 1.5rem;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #000000;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loading ion-icon {
+  font-size: 2rem;
+  color: #ffd700;
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 1rem;
+  margin: 1rem 2rem;
+  border-radius: 8px;
+  border-left: 4px solid #c33;
+  font-size: 0.9rem;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .attendee-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .attendee-badges {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .attendees-summary {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

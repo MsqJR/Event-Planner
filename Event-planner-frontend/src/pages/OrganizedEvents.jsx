@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import { eventsAPI } from '../services/api'
 import EventModal from '../components/EventModal'
 import InviteModal from '../components/InviteModal'
+import AttendeesModal from '../components/AttendeesModal'
 import '../pages/Dashboard.css'
+import './OrganizedEvents.css'
 
 function OrganizedEvents({ user }) {
   const [events, setEvents] = useState([])
@@ -10,9 +12,11 @@ function OrganizedEvents({ user }) {
   const [error, setError] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false)
+  const [isAttendeesModalOpen, setIsAttendeesModalOpen] = useState(false)
   const [createLoading, setCreateLoading] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [editingEvent, setEditingEvent] = useState(null)
+  const [selectedEventForAttendees, setSelectedEventForAttendees] = useState(null)
 
   useEffect(() => {
     loadEvents()
@@ -88,8 +92,13 @@ function OrganizedEvents({ user }) {
     setIsInviteModalOpen(true)
   }
 
+  const openAttendeesModal = (event) => {
+    setSelectedEventForAttendees(event)
+    setIsAttendeesModalOpen(true)
+  }
+
   return (
-    <div className="page-content">
+    <div className="page-content organized-events-page">
       <div className="page-header">
         <div>
           <h1>
@@ -115,43 +124,40 @@ function OrganizedEvents({ user }) {
           {events.length === 0 ? (
             <div className="no-events-card">
               <ion-icon name="calendar-clear-outline"></ion-icon>
-              <h3>No organized events yet</h3>
-              <p>Create your first event to get started!</p>
+              <p>No organized events found. Create your first event!</p>
             </div>
           ) : (
-            <div className="events-grid-list">
-              {events.map((event) => (
-                <div key={event.id} className="event-card-organizer">
-                  <ion-icon name="calendar"></ion-icon>
-                  <div className="event-info">
-                    <h4>{event.name}</h4>
-                  </div>
-                  <div className="event-actions">
-                    <button 
-                      className="edit-button"
-                      onClick={() => handleEditEvent(event)}
-                      title="Edit event"
-                    >
-                      <ion-icon name="create-outline"></ion-icon>
-                    </button>
-                    <button 
-                      className="invite-button"
-                      onClick={() => openInviteModal(event.id)}
-                      title="Invite users"
-                    >
-                      <ion-icon name="person-add-outline"></ion-icon>
-                    </button>
-                    <button 
-                      className="delete-button"
-                      onClick={() => handleDeleteEvent(event.id)}
-                      title="Delete event"
-                    >
-                      <ion-icon name="trash-outline"></ion-icon>
-                    </button>
-                  </div>
+            events.map((event) => (
+              <div key={event.id} className="event-card-organizer">
+                <ion-icon name="calendar"></ion-icon>
+                <div className="event-info">
+                  <h4>{event.name}</h4>
                 </div>
-              ))}
-            </div>
+                <div className="event-actions">
+                  <button 
+                    className="attendees-button"
+                    onClick={() => openAttendeesModal(event)}
+                    title="View attendees"
+                  >
+                    <ion-icon name="people-outline"></ion-icon>
+                  </button>
+                  <button className="edit-button" onClick={() => handleEditEvent(event)} title="Edit Event">
+                    <ion-icon name="create-outline"></ion-icon>
+                  </button>
+                  <button className="invite-button" onClick={() => openInviteModal(event.id)} title="Invite User">
+                    <ion-icon name="person-add-outline"></ion-icon>
+                  </button>
+                  <button className="delete-button" onClick={() => handleDeleteEvent(event.id)} title="Delete Event">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </button>
+                </div>
+                <div className="event-details">
+                  <p>Location: {event.location}</p>
+                  <p>Date: {event.date}</p>
+                  <p>Time: {event.time}</p>
+                </div>
+              </div>
+            ))
           )}
         </div>
       )}
@@ -164,11 +170,17 @@ function OrganizedEvents({ user }) {
         event={editingEvent}
       />
 
-      <InviteModal
+      <InviteModal 
         isOpen={isInviteModalOpen}
         onClose={() => setIsInviteModalOpen(false)}
         onInvite={handleInviteUser}
         eventId={selectedEvent}
+      />
+
+      <AttendeesModal
+        isOpen={isAttendeesModalOpen}
+        onClose={() => setIsAttendeesModalOpen(false)}
+        event={selectedEventForAttendees}
       />
     </div>
   )
