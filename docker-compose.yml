@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: eventplanner-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: eventplanner
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./Event-planner-backend/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - eventplanner-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Backend (Go API)
+  backend:
+    build:
+      context: ./Event-planner-backend
+      dockerfile: Dockerfile
+    container_name: eventplanner-backend
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root123
+      DB_NAME: eventplanner
+      PORT: 8080
+      HOST: 0.0.0.0
+      JWT_SECRET: dev-secret-key-change-in-production
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - eventplanner-network
+
+  # Frontend (React/Vite with Nginx)
+  frontend:
+    build:
+      context: ./Event-planner-frontend
+      dockerfile: Dockerfile
+    container_name: eventplanner-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - eventplanner-network
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8080/api/v1
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  eventplanner-network:
+    driver: bridge
