@@ -1,14 +1,13 @@
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: event-planner-backend
-  namespace: default
+  name: event-planner-git
 spec:
   successfulBuildsHistoryLimit: 5
   failedBuildsHistoryLimit: 5
   source:
     git:
-      uri: https://github.com/YOUR-USERNAME/Event-Planner.git
+      uri: https://github.com/MsqJR/Event-Planner.git
       ref: main
     contextDir: Event-planner-backend
   strategy:
@@ -30,12 +29,3 @@ spec:
       name: event-planner-backend:latest
   triggers:
     - type: ConfigChange
-    - type: ImageChange
-      imageChangeParams:
-        automatic: true
-        containerNames:
-          - event-planner-backend
-        from:
-          kind: ImageStreamTag
-          namespace: openshift
-          name: golang:1.21

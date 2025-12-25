@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Set execute permission on the binary
+chmod +x /opt/app-root/src/main
+
+# Run the application
+exec /opt/app-root/src/main
