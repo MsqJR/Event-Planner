@@ -1,0 +1,17 @@
+FROM mysql:8.0
+
+# Set environment variables
+ENV MYSQL_ROOT_PASSWORD=root123
+ENV MYSQL_DATABASE=eventplanner
+ENV MYSQL_USER=eventuser
+ENV MYSQL_PASSWORD=root123
+
+# Copy migration scripts to docker-entrypoint-initdb.d
+# These will be executed automatically when the container starts for the first time
+COPY migrations/*.sql /docker-entrypoint-initdb.d/
+
+# Expose MySQL port
+EXPOSE 3306
+
+# Set default command (inherited from mysql:8.0 base image)
+# CMD ["mysqld"]
