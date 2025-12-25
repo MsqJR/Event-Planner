@@ -1,0 +1,31 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: event-planner-backend
+  namespace: default
+spec:
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  source:
+    git:
+      uri: https://github.com/YOUR-USERNAME/Event-Planner.git
+      ref: main
+    contextDir: Event-planner-backend
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: golang:1.21
+      env:
+        - name: GO111MODULE
+          value: "on"
+  output:
+    to:
+      kind: ImageStreamTag
+      name: event-planner-backend:latest
+  postCommit:
+    args:
+      - go
+      - test
+      - ./...

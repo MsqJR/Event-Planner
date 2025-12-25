@@ -6,23 +6,25 @@ set -e
 
 echo "Building Event Planner Backend..."
 echo "Current directory: $(pwd)"
+echo "HOME: $HOME"
 echo "Contents:"
 ls -la
 
-# Download dependencies
-echo "Downloading Go modules..."
-go mod download
+# List go files
+echo "Go files found:"
+find . -name "*.go" -type f | head -20
 
-# Verify go.mod and go.sum exist
+# Verify go.mod exists
 if [ ! -f "go.mod" ]; then
     echo "ERROR: go.mod not found in $(pwd)"
+    echo "Checking parent directory..."
+    ls -la ..
     exit 1
 fi
 
-if [ ! -f "go.sum" ]; then
-    echo "WARNING: go.sum not found, regenerating..."
-    go mod tidy
-fi
+# Tidy modules (will download if needed)
+echo "Tidying Go modules..."
+go mod tidy
 
 # Build the application
 echo "Building application..."
