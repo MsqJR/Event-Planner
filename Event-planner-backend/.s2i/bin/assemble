@@ -5,11 +5,27 @@
 set -e
 
 echo "Building Event Planner Backend..."
+echo "Current directory: $(pwd)"
+echo "Contents:"
+ls -la
 
 # Download dependencies
+echo "Downloading Go modules..."
 go mod download
 
+# Verify go.mod and go.sum exist
+if [ ! -f "go.mod" ]; then
+    echo "ERROR: go.mod not found in $(pwd)"
+    exit 1
+fi
+
+if [ ! -f "go.sum" ]; then
+    echo "WARNING: go.sum not found, regenerating..."
+    go mod tidy
+fi
+
 # Build the application
+echo "Building application..."
 CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /opt/app-root/src/main ./cmd/main.go
 
 echo "Build completed successfully!"
