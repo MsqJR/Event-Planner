@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# S2I assemble script for Event Planner Backend
+
+set -e
+
+echo "Building Event Planner Backend..."
+
+# Download dependencies
+go mod download
+
+# Build the application
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /opt/app-root/src/main ./cmd/main.go
+
+echo "Build completed successfully!"
