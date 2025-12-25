@@ -1,0 +1,91 @@
+# Docker Run Commands for Event Planner Application
+# Run these commands in order from the Event-Planner directory
+
+# 1. Create Docker network
+docker network create eventplanner-network
+
+# 2. Create volume for MySQL data persistence
+docker volume create mysql_data
+
+# 3. Run MySQL Database Container
+docker run -d \
+  --name eventplanner-db \
+  --network event-planner_eventplanner-network \
+  -p 3307:3306 \
+  -e MYSQL_ROOT_PASSWORD=root123 \
+  -e MYSQL_DATABASE=eventplanner \
+  -e MYSQL_PASSWORD=root123 \
+  -v mysql_data:/var/lib/mysql \
+  -v ./Event-planner-backend/migrations:/docker-entrypoint-initdb.d \
+  --restart unless-stopped \
+  mysql:8.0
+
+# 4. Build Backend Image
+docker build -t event-planner-backend ./Event-planner-backend
+
+# 5. Run Backend Container (wait ~30 seconds after MySQL starts)
+
+# Option A: Using individual -e flags
+docker run -d \
+  --name eventplanner-backend \
+  --network event-planner_eventplanner-network \
+  -p 8080:8080 \
+  -e DB_HOST=eventplanner-db \
+  -e DB_PORT=3306 \
+  -e DB_USER=root \
+  -e DB_PASSWORD=root123 \
+  -e DB_NAME=eventplanner \
+  -e PORT=8080 \
+  -e HOST=0.0.0.0 \
+  -e JWT_SECRET=dev-secret-key-change-in-production \
+  --restart unless-stopped \
+  event-planner-backend
+
+# Option B: Using .env file (recommended)
+docker run -d \
+  --name eventplanner-backend \
+  --network event-planner_eventplanner-network \
+  -p 8080:8080 \
+  --env-file ./Event-planner-backend/.env.docker \
+  --restart unless-stopped \
+  event-planner-backend
+
+# 6. Build Frontend Image
+docker build -t event-planner-frontend ./Event-planner-frontend
+
+# 7. Run Frontend Container
+docker run -d \
+  --name eventplanner-frontend \
+  --network event-planner_eventplanner-network \
+  -p 80:80 \
+  -e VITE_API_BASE_URL=http://localhost:8080/api/v1 \
+  --restart unless-stopped \
+  event-planner-frontend
+
+# ============================================
+# Useful Commands
+# ============================================
+
+# Check running containers
+docker ps
+
+# View logs
+docker logs eventplanner-db
+docker logs eventplanner-backend
+docker logs eventplanner-frontend
+
+# Stop all containers
+docker stop eventplanner-frontend eventplanner-backend eventplanner-db
+
+# Remove all containers
+docker rm eventplanner-frontend eventplanner-backend eventplanner-db
+
+# Remove network and volume
+docker network rm eventplanner-network
+docker volume rm mysql_data
+
+# Stop and remove everything at once
+docker stop eventplanner-frontend eventplanner-backend eventplanner-db && \
+docker rm eventplanner-frontend eventplanner-backend eventplanner-db && \
+docker network rm eventplanner-network && \
+docker volume rm mysql_data
