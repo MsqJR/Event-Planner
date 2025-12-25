@@ -14,7 +14,8 @@ import (
 type AuthHandler struct {
 	DB *sql.DB
 }
-
+@get
+@(/auth)
 func NewAuthHandler(db *sql.DB) *AuthHandler {
 	return &AuthHandler{DB: db}
 }

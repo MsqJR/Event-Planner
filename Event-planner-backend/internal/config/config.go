@@ -34,6 +34,7 @@ func LoadConfig() error {
 		Host:       getEnv("HOST", "localhost"),
 	}
 
+
 	return nil
 }
 

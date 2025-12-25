@@ -14,7 +14,6 @@ var DB *sql.DB
 
 func InitDB() error {
 	var err error
-
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&charset=utf8mb4",
 		config.AppConfig.DBUser,
 		config.AppConfig.DBPassword,
@@ -22,7 +21,6 @@ func InitDB() error {
 		config.AppConfig.DBPort,
 		config.AppConfig.DBName,
 	)
-
 	DB, err = sql.Open("mysql", dsn)
 	if err != nil {
 		return fmt.Errorf("failed to open database: %w", err)

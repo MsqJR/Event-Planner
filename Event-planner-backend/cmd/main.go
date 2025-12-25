@@ -62,6 +62,6 @@ func main() {
 	})
 
 	addr := fmt.Sprintf("%s:%s", config.AppConfig.Host, config.AppConfig.Port)
-	fmt.Printf("Event Planner Phase 0 Server starting on %s\n", addr)
+	fmt.Printf("Event Planner Phase 1 Server starting on %s\n", addr)
 	log.Fatal(http.ListenAndServe(addr, router))
 }
