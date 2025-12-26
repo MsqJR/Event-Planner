@@ -19,9 +19,11 @@ type Config struct {
 var AppConfig *Config
 
 func LoadConfig() error {
+	// Try to load .env file, but don't fail if it doesn't exist
+	// In production/containers, environment variables are set externally
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("Warning: .env file not found") //(prints if was .env not found )
+		fmt.Println("Warning: .env file not found, using environment variables or defaults")
 	}
 
 	AppConfig = &Config{
@@ -31,7 +33,7 @@ func LoadConfig() error {
 		DBPassword: getEnv("DB_PASSWORD", ""),
 		DBName:     getEnv("DB_NAME", "eventplanner"),
 		Port:       getEnv("PORT", "8080"),
-		Host:       getEnv("HOST", "localhost"),
+		Host:       getEnv("HOST", "0.0.0.0"),
 	}
 
 	return nil
