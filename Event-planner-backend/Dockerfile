@@ -22,13 +22,20 @@ FROM alpine:latest
 # Install ca-certificates for HTTPS
 RUN apk --no-cache add ca-certificates
 
-WORKDIR /root/
+# Use non-root working directory
+WORKDIR /app
 
 # Copy the binary from builder
 COPY --from=builder /app/main .
 
 # Copy migrations
 COPY --from=builder /app/migrations ./migrations
+
+# Set executable permissions for non-root users
+RUN chmod +x /app/main
+
+# Use non-root user (OpenShift will override with its own UID)
+USER 1001
 
 # Expose port
 EXPOSE 8080
